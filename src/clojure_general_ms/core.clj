@@ -1,5 +1,5 @@
 (ns clojure-general-ms.core
-  (:require [clojure-general-ms.configs.yml.ymlconfig :as config])
+  (:require [clojure-general-ms.configs.yml.yml-config :as config])
   (:gen-class))
 
 (defn -main []

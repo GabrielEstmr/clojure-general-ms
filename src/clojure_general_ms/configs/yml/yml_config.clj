@@ -1,4 +1,4 @@
-(ns clojure-general-ms.configs.yml.ymlconfig
+(ns clojure-general-ms.configs.yml.yml-config
   (:import [org.yaml.snakeyaml Yaml])
   (:require [clojure.java.io :as io]))
 
