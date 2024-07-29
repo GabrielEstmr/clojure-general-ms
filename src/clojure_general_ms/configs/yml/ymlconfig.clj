@@ -8,6 +8,7 @@
     (.load yaml input-stream)))
 
 ;; Example usage
-(def config (read-config "./src/resources/config.yml"))
+;(def config (read-config "./src/resources/config.yml"))
+(def config (read-config "./resources/config.yml"))
 
 (println config)
