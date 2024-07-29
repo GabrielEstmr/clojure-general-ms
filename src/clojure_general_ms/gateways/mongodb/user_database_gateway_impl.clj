@@ -7,4 +7,4 @@
   (user-repository/create-user (user-document/create-user-document user)))
 
 (defn find-user-by-id [id]
-  (user-repository/get-users id))
+  (user-document/to-domain (user-repository/find-user-by-id id)))

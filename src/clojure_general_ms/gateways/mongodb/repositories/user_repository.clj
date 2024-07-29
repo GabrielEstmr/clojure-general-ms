@@ -2,7 +2,6 @@
   (:require
     [clojure-general-ms.configs.mongo.mongo-config :as mongo-config])
   (:import
-    (java.time Instant)
     (org.bson Document)
     (org.bson.types ObjectId)))
 
@@ -18,8 +17,8 @@
                 (.append "last_name" (:last_name user-document))
                 (.append "age" (:age user-document))
                 (.append "company" (:company user-document))
-                (.append "created_date" (str (Instant/now)))
-                (.append "last_modified_date" (str (Instant/now))))]
+                (.append "created_date" (:created_date user-document))
+                (.append "last_modified_date" (:last_modified_date user-document)))]
     (.insertOne collection doc)))
 
 (defn find-user-by-id [id]

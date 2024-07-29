@@ -7,7 +7,8 @@
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [org.yaml/snakeyaml "1.29"]
                  [org.mongodb/mongodb-driver-sync "4.6.0"]
-                 [cheshire "5.10.0"]]
+                 [cheshire "5.10.0"]
+                 [org.slf4j/slf4j-api "1.7.30"]]
   :main ^:skip-aot clojure-general-ms.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
