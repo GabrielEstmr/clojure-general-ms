@@ -1,7 +1,7 @@
 (ns clojure-general-ms.core
+  (:require [clojure-general-ms.configs.yml.ymlconfig :as config])
   (:gen-class))
 
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
+(defn -main []
+  (println "App Name:" (get-in config/config ["app" "name"]))
+  (println "Database Host:" (get-in config/config ["database" "host"])))
