@@ -21,7 +21,7 @@
                 (.append "last_modified_date" (:last_modified_date user-document)))]
     (.insertOne collection doc)))
 
-(defn find-user-by-id [id]
+(defn find-by-id [id]
   (let [collection (.getCollection mongo-config/get-database "users")
         query (Document. "_id" (ObjectId. id))
         doc (.find collection query)]

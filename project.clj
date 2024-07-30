@@ -8,7 +8,9 @@
                  [org.yaml/snakeyaml "1.29"]
                  [org.mongodb/mongodb-driver-sync "4.6.0"]
                  [cheshire "5.10.0"]
-                 [org.slf4j/slf4j-api "1.7.30"]]
+                 [org.slf4j/slf4j-api "1.7.30"]
+                 [ring/ring-core "1.9.4"]
+                 [ring/ring-jetty-adapter "1.9.4"]]
   :main ^:skip-aot clojure-general-ms.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
