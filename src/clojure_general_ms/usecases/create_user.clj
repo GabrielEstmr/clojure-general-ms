@@ -3,5 +3,6 @@
 ;TODO: try/catch exceptions default application
 (defn execute [userDatabaseGateway]
   (fn [user]
-    (println "==============================> Print inside usecase create-user")
-    (.save userDatabaseGateway user)))
+    (let [saved-user (.save userDatabaseGateway user)]
+      (println "==============================> Print inside usecase create-user")
+      saved-user)))

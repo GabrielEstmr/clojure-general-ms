@@ -5,7 +5,11 @@
     [clojure-general-ms.gateways.mongodb.documents.user-document :as user-document]))
 
 (defn save-impl [user]
-  (user-document/to-domain (user-repository/save (user-document/create-user-document user))))
+  (let [user-doc (user-document/create-user-document user)
+        saved-user-doc (user-repository/save user-doc)
+        saved-user (user-document/to-domain saved-user-doc)]
+    saved-user))
+
 
 (defn find-by-id-impl [id]
   (user-document/to-domain (user-repository/find-by-id id)))

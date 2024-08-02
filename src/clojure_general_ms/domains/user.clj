@@ -1,9 +1,10 @@
 (ns clojure-general-ms.domains.user)
 
-(defn create-user [first-name last-name age company created-date last-modified-date]
-  {:first_name         first-name
-   :last_name          last-name
+(defn create-user [id first-name last-name age company created-date last-modified-date]
+  {:id                 id
+   :first-name         first-name
+   :last-name          last-name
    :age                age
    :company            company
-   :created_date       created-date
-   :last_modified_date last-modified-date})
+   :created-date       created-date
+   :last-modified-date last-modified-date})
