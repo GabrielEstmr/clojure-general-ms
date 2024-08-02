@@ -6,6 +6,8 @@
     (org.bson.types ObjectId)))
 
 
+(def users-collection (.getCollection db "users"))
+
 (defn get-users [user-document]
   (let [collection (.getCollection mongo-config/get-database "users")]
     (map (fn [user-document] (.toJson user-document)) (.find collection))))

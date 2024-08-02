@@ -1,21 +1,41 @@
 (ns clojure-general-ms.gateways.ws.controllers.user-controller
   (:require [compojure.core :refer :all]
-            [ring.util.http-response :refer :all]
-            [clojure.edn :as edn]))
+            [compojure.route :as route]
+            [clojure-general-ms.usecases.beans.usecase-beans :as usecase-beans]
+            [ring.util.response :refer [response]]))
+
+;(defn create-user [req]
+;  (let [user (assoc (-> req :body)
+;               :created_date (time/instant)
+;               :last_modified_date (time/instant))]
+;    (db/save-user user)
+;    (response {:message "User created successfully"})))
 
 
-(defn save-user-handler [request]
-  (let [user (-> request :body slurp edn/read-string)]
-    (db/save-user user)
-    (ok {:status "User created successfully"})))
+(defn post-twitter-handler
+  [req]
+  (let [tweet-json (:body req)
+        saved (try
+                (d/post-tweet tweet-json)
+                (catch Exception e
+                  (do
+                    (log/error e)
+                    false)))]
+    (log/info tweet-json)
+    {:status  201
+     :headers {"Content-Type" "text/html"}
+     :body    "test"}))
 
-(defn get-user-handler [request]
-  (let [id (-> request :params :id)
-        user (db/find-user-by-id id)]
-    (if user
-      (ok user)
-      (not-found {:status "User not found"}))))
+(defroutes app-routes
+           (POST "/tweets" [] (mj/wrap-json-body post-twitter-handler {:keywords? true :bigdecimals? true})))
 
-(defroutes user-routes
-           (POST "/user" request (save-user-handler request))
-           (GET "/users/:id" request (get-user-handler request)))
+
+;(defn get-user [id]
+;  (if-let [usecaseFindUserById (:usecaseFindUserById usecase-beans/get-beans)]
+;    (response {:msg (usecaseFindUserById id)})
+;    (response {:error "User not found"} 404)))
+;
+;(defroutes app-routes
+;           ;(POST "/users" req (create-user req))
+;           (GET "/users/:id" [id] (get-user id))
+;           (route/not-found "Not Found"))

@@ -11,10 +11,30 @@
    :last_modified_date (.toString (Instant/now))})
 
 (defn create-user-document [user]
-  (let [{:keys [first_name last_name age company]} user]
-    (create-user-document-all-args first_name last_name age company)))
+  (let [{:keys [
+                first_name
+                last_name
+                age
+                company]} user]
+    (create-user-document-all-args
+      first_name
+      last_name
+      age
+      company)))
 
 
 (defn to-domain [user-document]
-  (let [{:keys [first_name last_name age company created_date last_modified_date]} user-document]
-    (domain-user/create-user first_name last_name age company created_date, last_modified_date)))
+  (let [{:keys [
+                first_name
+                last_name
+                age
+                company
+                created_date
+                last_modified_date]} user-document]
+    (domain-user/create-user
+      first_name
+      last_name
+      age
+      company
+      created_date,
+      last_modified_date)))

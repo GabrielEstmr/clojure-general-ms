@@ -10,7 +10,14 @@
                  [cheshire "5.10.0"]
                  [org.slf4j/slf4j-api "1.7.30"]
                  [ring/ring-core "1.9.4"]
-                 [ring/ring-jetty-adapter "1.9.4"]]
+                 [ring/ring-jetty-adapter "1.9.4"]
+                 [ring/ring-defaults "0.3.3"]
+                 [ring/ring-json "0.5.0"]
+                 [compojure "1.6.2"]
+                 [ch.qos.logback/logback-classic "1.2.3"]
+                 [http-kit "2.3.0"]
+                 [org.clojure/data.json "2.4.0"]
+                 [org.mongodb/bson "4.9.1"]]
   :main ^:skip-aot clojure-general-ms.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all

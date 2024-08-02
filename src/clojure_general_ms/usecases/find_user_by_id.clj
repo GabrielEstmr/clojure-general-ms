@@ -2,5 +2,5 @@
 
 (defn find-user-by-id [userDatabaseGateway]
   (fn [id]
-    (println "Print inside usecase find-user-by-id")
+    (println "==============================> Print inside usecase find-user-by-id")
     (.find-by-id userDatabaseGateway id)))
