@@ -1,14 +1,9 @@
 (ns clojure-general-ms.gateways.ws.routes.app-routes
-  (:require [compojure.core :refer :all]))
+  (:require [clojure-general-ms.gateways.ws.controllers.user-controller :as user-controller]
+            [compojure.core :refer :all]
+            [compojure.route :as route]))
 
-;(def post-users (POST "/users" request (create-user-handler request)))
-;(def get-users-by-id (GET "/users/:id" [id]
-;                    (let [user (user-handler-v2 (str id))]
-;                      (if user
-;                        (response/response user)
-;                        (response/status 404 "User not found")))))
-;
-;
-;(defn get-routes []
-;  {:usecaseFindUserById post-users
-;   :usecaseCreateUser   get-users-by-id})
+(defroutes app-routes
+           (POST "/users" request (user-controller/create-user-handler request))
+           (GET "/users/:id" [id] (user-controller/find-user-by-id-handler id))
+           (route/not-found "Not Found"))
