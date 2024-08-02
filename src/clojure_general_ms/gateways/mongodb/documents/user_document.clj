@@ -22,7 +22,7 @@
       age
       company)))
 
-
+;AQUI: retornar apenas doc
 (defn to-domain [user-document]
   (let [{:keys [
                 first_name
