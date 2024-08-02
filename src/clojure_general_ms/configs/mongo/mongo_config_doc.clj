@@ -1,6 +1,6 @@
 (ns clojure-general-ms.configs.mongo.mongo-config-doc
   (:import (com.mongodb MongoClientSettings ServerApi ServerApiVersion ConnectionString)
-           [com.mongodb.client MongoClients MongoDatabase]
+           [com.mongodb.client MongoClients]
            (com.mongodb.client.model Filters)
            (org.bson BsonDocument BsonInt64 Document)
            (org.bson.types ObjectId)))
