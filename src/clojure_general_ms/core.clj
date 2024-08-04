@@ -7,7 +7,9 @@
             [ring.middleware.json :refer [wrap-json-response]]))
 
 (def app
-  (wrap-json-response (custom-exception-handler/custom-exception-handler app-routes/app-routes)))
+  (wrap-json-response (
+                        custom-exception-handler/custom-exception-handler
+                        app-routes/app-routes)))
 
 (defn -main [& args]
   (try

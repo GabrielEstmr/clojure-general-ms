@@ -1,25 +1,14 @@
 (ns clojure-general-ms.gateways.mongodb.repositories.user-repository
-  (:require [clojure-general-ms.configs.mongo.mongo-config-doc :as mongo-config])
+  (:require [clojure-general-ms.configs.mongo.mongo-config-doc :as mongo-config]
+            [clojure-general-ms.utils.date-utils :as date-utils]
+            [clojure-general-ms.utils.mongo-doc-utils :as mongo-doc-utils])
   (:import (com.mongodb.client.model Filters)
-           (java.time LocalDateTime ZoneId)
+           (java.time LocalDateTime)
            (org.bson Document)
            (org.bson.types ObjectId)))
 
 (defonce users-collection (.getCollection mongo-config/database "user"))
 
-(defn document->map [^Document doc]
-  (let [keys (.keySet doc)]                                 ;; Get the set of keys from the document
-    (reduce (fn [m k]
-              (assoc m (keyword k) (.get doc k)))           ;; Add each key-value pair to the map
-            {}
-            keys)))
-
-(defn date-to-localdatetime [date]
-  (let [instant (.toInstant date)
-        zone-id (ZoneId/systemDefault)]
-    (LocalDateTime/ofInstant instant zone-id)))
-
-;TODO: Aqui retorna apenas ID
 (defn save [user-document]
   (let [now (LocalDateTime/now)
         doc (-> (Document.)
@@ -41,12 +30,10 @@
     (println "Inserted a document with the following id:" inserted-id)
     updated-user-document))
 
-
-
 (defn find-by-id [id]
   (let [filter (Filters/eq "_id" (ObjectId. (str id)))
         doc (.first (.find users-collection filter))
-       docMap (document->map doc)
+       docMap (mongo-doc-utils/doc-to-map doc)
         {:keys [_id
                 first_name
                 last_name
@@ -62,6 +49,5 @@
        :last_name          last_name
        :age                age
        :company            company
-       :created_date       (date-to-localdatetime created_date)
-       :last_modified_date (date-to-localdatetime last_modified_date)})))
-
+       :created_date       (date-utils/date-to-local-datetime created_date)
+       :last_modified_date (date-utils/date-to-local-datetime last_modified_date)})))
