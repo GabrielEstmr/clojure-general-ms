@@ -18,6 +18,8 @@
                  [http-kit "2.3.0"]
                  [org.clojure/data.json "2.4.0"]
                  [org.mongodb/bson "4.9.1"]]
+  :java-source-paths ["src/clojure_general_ms/java/domains/exceptions"
+                      "src/clojure_general_ms/java/domains/exceptionsv2"]
   :main ^:skip-aot clojure-general-ms.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all
