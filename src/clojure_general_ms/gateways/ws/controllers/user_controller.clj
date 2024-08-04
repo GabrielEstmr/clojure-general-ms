@@ -4,7 +4,7 @@
             [clojure-general-ms.gateways.ws.resources.user-responses :as user-responses]
             [clojure-general-ms.usecases.beans.usecase-beans :as usecase-beans]
             [ring.util.response :as response])
-  (:import [clojure_general_ms.java.domains.exceptions JsonUtilsException ResourceNotFoundException]))
+  (:import [clojure_general_ms.java.domains.exceptions ResourceNotFoundException]))
 
 (defn find-user-by-id-handler [id]
   (let [usecaseFindUserById (:usecaseFindUserById (usecase-beans/get-beans))
@@ -30,7 +30,7 @@
   (let [usecaseCreateUser (:usecaseCreateUser (usecase-beans/get-beans))
         body (slurp (:body request))
         user (json/read-str body :key-fn keyword)]
-    (risky-operation)
+    ;(risky-operation)
     (try
       (let [created-user (usecaseCreateUser user)
             response-body (json/write-str (user-responses/create-user-response created-user))]

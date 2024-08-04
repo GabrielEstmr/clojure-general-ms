@@ -1,10 +1,6 @@
 (ns clojure-general-ms.gateways.ws.resources.user-responses
+  (:require [clojure-general-ms.utils.date-utils :as date-utils])
   (:import [java.time.format DateTimeFormatter]))
-
-(defn format-local-date-time [ldt]
-  (let [formatter (DateTimeFormatter/ofPattern "yyyy-MM-dd'T'HH:mm:ss")]
-    (.format ldt formatter)))
-
 
 (defn create-user-response-all-args [id first-name last-name age company created-date last-modified-date]
   {:id                 id
@@ -12,8 +8,8 @@
    :last-name          last-name
    :age                age
    :company            company
-   :created-date       (format-local-date-time created-date)
-   :last-modified-date (format-local-date-time last-modified-date)})
+   :created-date       (date-utils/format-local-date-time-to-string-default created-date)
+   :last-modified-date (date-utils/format-local-date-time-to-string-default last-modified-date)})
 
 (defn create-user-response [user]
   (let [{:keys [id

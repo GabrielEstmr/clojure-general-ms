@@ -9,6 +9,7 @@
 
 (defonce users-collection (.getCollection mongo-config/database "user"))
 
+;; TODO: rever :first-name and :last-name keys
 (defn save [user-document]
   (let [now (LocalDateTime/now)
         doc (-> (Document.)
