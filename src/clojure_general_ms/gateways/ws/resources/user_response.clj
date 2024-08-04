@@ -1,6 +1,5 @@
-(ns clojure-general-ms.gateways.ws.resources.user-responses
-  (:require [clojure-general-ms.utils.date-utils :as date-utils])
-  (:import [java.time.format DateTimeFormatter]))
+(ns clojure-general-ms.gateways.ws.resources.user-response
+  (:require [clojure-general-ms.utils.date-utils :as date-utils]))
 
 (defn create-user-response-all-args [id first-name last-name age company created-date last-modified-date]
   {:id                 id
