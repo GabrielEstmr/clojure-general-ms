@@ -32,7 +32,7 @@
     updated-user-document))
 
 (defn find-by-id [id]
-  (let [filter (Filters/eq "_id" (ObjectId. (str id)))
+  (let [filter (Filters/eq "_id" (mongo-doc-utils/string-to-object-id id))
         doc (.first (.find users-collection filter))
        docMap (mongo-doc-utils/doc-to-map doc)
         {:keys [_id

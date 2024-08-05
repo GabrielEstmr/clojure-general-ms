@@ -12,7 +12,9 @@
 
 
 (defn find-by-id-impl [id]
-  (user-document/to-domain (user-repository/find-by-id id)))
+  (let [user-document (user-repository/find-by-id id)]
+    (when user-document
+      (user-document/to-domain user-document))))
 
 (defrecord UserDatabaseGatewayImpl []
   user-database-gateway/UserDatabaseGateway

@@ -26,4 +26,4 @@
       (catch ResourceNotFoundException e
         (build-error-response-msg 404 (.getMessage e)))
       (catch Exception e
-        (build-error-response-msg 404 (.getMessage e))))))
+        (build-error-response-msg 500 (.getMessage e))))))

@@ -14,3 +14,7 @@
    :last-name  last-name
    :age        age
    :company    company})
+
+(defn get-id [user]
+  (when user
+    (get user :id nil)))

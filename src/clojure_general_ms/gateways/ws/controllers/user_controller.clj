@@ -11,7 +11,6 @@
   (let [usecaseFindUserById (:usecaseFindUserById (usecase-beans/get-beans))
         user (usecaseFindUserById id)
         response-body (json/write-str (user-response/create-user-response user))]
-
     (try
       (println "OK")
       (-> (response/response response-body)
