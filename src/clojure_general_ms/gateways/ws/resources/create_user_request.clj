@@ -4,10 +4,12 @@
 (defn to-domain [user-request]
   (let [{:keys [first_name
                 last_name
+                username
                 age
                 company]} user-request]
     (user/create-user
       first_name
       last_name
+      username
       age
       company)))

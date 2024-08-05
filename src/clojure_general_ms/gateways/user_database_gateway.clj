@@ -2,4 +2,5 @@
 
 (defprotocol UserDatabaseGateway
   (save [this user])
-  (find-by-id [this id]))
+  (find-by-id [this id])
+  (find-by-username [this username]))

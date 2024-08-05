@@ -10,9 +10,13 @@
         saved-user (user-document/to-domain saved-user-doc)]
     saved-user))
 
-
 (defn find-by-id-impl [id]
   (let [user-document (user-repository/find-by-id id)]
+    (when user-document
+      (user-document/to-domain user-document))))
+
+(defn find-by-username-impl [username]
+  (let [user-document (user-repository/find-by-username username)]
     (when user-document
       (user-document/to-domain user-document))))
 
@@ -21,4 +25,6 @@
   (save [_ user]
     (save-impl user))
   (find-by-id [_ id]
-    (find-by-id-impl id)))
+    (find-by-id-impl id))
+  (find-by-username [_ username]
+    (find-by-username-impl username)))

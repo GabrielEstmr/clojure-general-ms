@@ -1,10 +1,11 @@
 (ns clojure-general-ms.gateways.ws.resources.user-response
   (:require [clojure-general-ms.utils.date-utils :as date-utils]))
 
-(defn create-user-response-all-args [id first-name last-name age company created-date last-modified-date]
+(defn create-user-response-all-args [id first-name last-name username age company created-date last-modified-date]
   {:id                 id
    :first-name         first-name
    :last-name          last-name
+   :username           username
    :age                age
    :company            company
    :created-date       (date-utils/format-local-date-time-to-string-default created-date)
@@ -14,6 +15,7 @@
   (let [{:keys [id
                 first-name
                 last-name
+                username
                 age
                 company
                 created-date
@@ -22,6 +24,7 @@
       id
       first-name
       last-name
+      username
       age
       company
       created-date
