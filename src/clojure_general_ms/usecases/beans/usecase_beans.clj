@@ -14,7 +14,7 @@
         usecaseFindUserByUsername (usecaseFindUserByUsername/execute userDatabaseGateway)
         usecaseCreateUser (usecaseCreateUser/execute userDatabaseGateway)
         usecaseFindAccountById (usecaseFindAccountById/execute accountDatabaseGateway)
-        usecaseCreateAccount (usecaseCreateAccount/execute accountDatabaseGateway)]
+        usecaseCreateAccount (usecaseCreateAccount/execute userDatabaseGateway accountDatabaseGateway)]
     {:usecaseFindUserById       usecaseFindUserById
      :usecaseCreateUser         usecaseCreateUser
      :usecaseFindUserByUsername usecaseFindUserByUsername

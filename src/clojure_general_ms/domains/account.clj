@@ -9,6 +9,6 @@
 (defn create-account [user-id]
   {:user-id user-id})
 
-(defn get-id [user]
-  (when user
-    (get user :id nil)))
+(defn get-user-id [account]
+  (when account
+    (get account :user-id nil)))
