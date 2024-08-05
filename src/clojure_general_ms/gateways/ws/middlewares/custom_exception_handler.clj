@@ -1,6 +1,6 @@
 (ns clojure-general-ms.gateways.ws.middlewares.custom-exception-handler
-  (:require [clojure.data.json :as json])
-  (:import [clojure_general_ms.java.domains.exceptions JsonUtilsException ResourceNotFoundException]))
+  (:import [clojure_general_ms.java.domains.exceptions BadRequestException JsonUtilsException ResourceNotFoundException]
+           (org.eclipse.jetty.http HttpStatus)))
 
 (defn build-error-message-body [msg]
   {
@@ -22,8 +22,10 @@
     (try
       (handler request)
       (catch JsonUtilsException e
-        (build-error-response 500 e))
+        (build-error-response (HttpStatus/INTERNAL_SERVER_ERROR_500) e))
+      (catch BadRequestException e
+        (build-error-response-msg (HttpStatus/BAD_REQUEST_400) (.getMessage e)))
       (catch ResourceNotFoundException e
-        (build-error-response-msg 404 (.getMessage e)))
+        (build-error-response-msg (HttpStatus/NOT_FOUND_404) (.getMessage e)))
       (catch Exception e
-        (build-error-response-msg 500 (.getMessage e))))))
+        (build-error-response-msg (HttpStatus/INTERNAL_SERVER_ERROR_500) (.getMessage e))))))
