@@ -6,9 +6,9 @@
 
 (defn save-impl [user]
   (let [user-doc (user-document/create-user-document user)
-        saved-user-doc (user-repository/save user-doc)
-        saved-user (user-document/to-domain saved-user-doc)]
-    saved-user))
+        saved-user-doc (user-repository/save user-doc)]
+    (when saved-user-doc
+      (user-document/to-domain saved-user-doc))))
 
 (defn find-by-id-impl [id]
   (let [user-document (user-repository/find-by-id id)]

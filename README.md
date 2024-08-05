@@ -10,3 +10,4 @@
 - [ ] next
 - [ ] tests
 - [ ] container tests
+- [ ] caching (redis)

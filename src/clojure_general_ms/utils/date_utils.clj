@@ -5,6 +5,8 @@
 (defonce system-zone-id (ZoneId/systemDefault))
 (defonce default-date-pattern (DateTimeFormatter/ISO_LOCAL_DATE_TIME))
 
+;;TODO: review with when
+
 (defn date-to-local-datetime [date]
   (let [instant (.toInstant date)]
     (LocalDateTime/ofInstant instant system-zone-id)))
