@@ -37,27 +37,6 @@
 
 
 
-;(defn create-consumer []
-;  (let [props (doto (Properties.)
-;                (.put ConsumerConfig/BOOTSTRAP_SERVERS_CONFIG "localhost:9092")
-;                (.put ConsumerConfig/GROUP_ID_CONFIG "transaction-consumer-group")
-;                (.put ConsumerConfig/KEY_DESERIALIZER_CLASS_CONFIG "org.apache.kafka.common.serialization.StringDeserializer")
-;                (.put ConsumerConfig/VALUE_DESERIALIZER_CLASS_CONFIG "org.apache.kafka.common.serialization.StringDeserializer"))
-;        consumer (KafkaConsumer. props)]
-;    (.subscribe consumer (Collections/singletonList "transactions"))
-;    consumer))
-;
-;(defn consume-messages [consumer]
-;  (while true
-;    (let [records (.poll consumer (Duration/ofMillis 100))]
-;      (doseq [record records]
-;        (log/info "Received message:" (.value record))))))
-;
-;(defn start-consumer []
-;  (let [consumer (create-consumer)]
-;    (consume-messages consumer)))
-
-
 
 
 
