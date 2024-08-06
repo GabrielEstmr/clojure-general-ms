@@ -17,7 +17,9 @@
                  [ch.qos.logback/logback-classic "1.2.3"]
                  [http-kit "2.3.0"]
                  [org.clojure/data.json "2.4.0"]
-                 [org.mongodb/bson "4.9.1"]]
+                 [org.mongodb/bson "4.9.1"]
+                 [org.apache.kafka/kafka-clients "3.4.0"]
+                 [org.clojure/tools.logging "1.2.4"]]
   :plugins [[lein-cloverage "1.2.4"]]
   :java-source-paths ["src/clojure_general_ms/java/domains/exceptions"]
   :main ^:skip-aot clojure-general-ms.core
