@@ -18,9 +18,9 @@
                 (.put ConsumerConfig/KEY_DESERIALIZER_CLASS_CONFIG StringDeserializer)
                 (.put ConsumerConfig/VALUE_DESERIALIZER_CLASS_CONFIG StringDeserializer)
                 (.put ConsumerConfig/AUTO_OFFSET_RESET_CONFIG "earliest")
-                (.put ConsumerConfig/MAX_POLL_RECORDS_CONFIG 5)
-                (.put ConsumerConfig/SESSION_TIMEOUT_MS_CONFIG 60000)
-                (.put ConsumerConfig/MAX_POLL_INTERVAL_MS_CONFIG 250000))
+                (.put ConsumerConfig/MAX_POLL_RECORDS_CONFIG (int 5))
+                (.put ConsumerConfig/SESSION_TIMEOUT_MS_CONFIG (int 60000))
+                (.put ConsumerConfig/MAX_POLL_INTERVAL_MS_CONFIG (int 250000)))
                 consumer (KafkaConsumer. props)]
     (.subscribe consumer (Collections/singletonList "transactions"))
     consumer))
