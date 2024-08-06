@@ -2,12 +2,14 @@
 
 ## What's next
 
-- [ ] Entity validations
+- [x] Entity validations
 - [ ] Kafka
 - [ ] Postgres
 - [ ] Swagger
 - [ ] APM
-- [ ] next
-- [ ] tests
+- [x] tests 
+- [ ] tests mocking
+- [ ] tests intellij 
+- [x] tests coverages (need exclusion)
 - [ ] container tests
 - [ ] caching (redis)

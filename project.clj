@@ -2,7 +2,7 @@
   :description "FIXME: write description"
   :url "http://example.com/FIXME"
   :license {:name "EPL-2.0 OR GPL-2.0-or-later WITH Classpath-exception-2.0"
-            :url "https://www.eclipse.org/legal/epl-2.0/"}
+            :url  "https://www.eclipse.org/legal/epl-2.0/"}
   :repositories [["clojars" "https://repo.clojars.org/"]]
   :dependencies [[org.clojure/clojure "1.11.1"]
                  [org.yaml/snakeyaml "1.29"]
@@ -18,9 +18,11 @@
                  [http-kit "2.3.0"]
                  [org.clojure/data.json "2.4.0"]
                  [org.mongodb/bson "4.9.1"]]
-  :java-source-paths ["src/clojure_general_ms/java/domains/exceptions"
-                      "src/clojure_general_ms/java/domains/exceptionsv2"]
+  :plugins [[lein-cloverage "1.2.4"]]
+  :java-source-paths ["src/clojure_general_ms/java/domains/exceptions"]
   :main ^:skip-aot clojure-general-ms.core
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all
-                       :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}})
+  :profiles {:uberjar   {:aot      :all
+                         :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}
+             :cloverage {
+                         :cloverage {:ns-exclude-regex "^clojure-general-ms\\.(gateways|configs)\\..*"}}})

@@ -5,17 +5,16 @@
     <option name="displayName" value="clojure-general-ms:0.1.0-SNAPSHOT" />
   </component>
   <component name="NewModuleRootManager">
-    <output url="file://$MODULE_DIR$/target/classes" />
-    <output-test url="file://$MODULE_DIR$/target/classes" />
+    <output url="file://$MODULE_DIR$/target/cloverage/classes" />
+    <output-test url="file://$MODULE_DIR$/target/cloverage/classes" />
     <exclude-output />
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/dev-resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/clojure_general_ms/java/domains/exceptions" isTestSource="false" />
-      <sourceFolder url="file://$MODULE_DIR$/src/clojure_general_ms/java/domains/exceptionsv2" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/target/cloverage" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -37,7 +36,6 @@
     <orderEntry type="library" name="Leiningen: instaparse:1.4.8" level="project" />
     <orderEntry type="library" name="Leiningen: javax.servlet/javax.servlet-api:3.1.0" level="project" />
     <orderEntry type="library" name="Leiningen: medley:1.3.0" level="project" />
-    <orderEntry type="library" name="Leiningen: nrepl:1.0.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/clojure:1.11.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/core.specs.alpha:0.2.62" level="project" />
     <orderEntry type="library" name="Leiningen: org.clojure/data.json:2.4.0" level="project" />
@@ -51,7 +49,6 @@
     <orderEntry type="library" name="Leiningen: org.mongodb/bson:4.9.1" level="project" />
     <orderEntry type="library" name="Leiningen: org.mongodb/mongodb-driver-core:4.6.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.mongodb/mongodb-driver-sync:4.6.0" level="project" />
-    <orderEntry type="library" name="Leiningen: org.nrepl/incomplete:0.1.0" level="project" />
     <orderEntry type="library" name="Leiningen: org.slf4j/slf4j-api:1.7.30" level="project" />
     <orderEntry type="library" name="Leiningen: org.yaml/snakeyaml:1.29" level="project" />
     <orderEntry type="library" name="Leiningen: ring/ring-anti-forgery:1.3.0" level="project" />
