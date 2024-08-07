@@ -5,7 +5,7 @@
             [clojure-general-ms.gateways.ws.resources.create-user-request :as create-user-request]
             [clojure-general-ms.usecases.beans.usecase-beans :as usecase-beans]
             [ring.util.response :as response])
-  (:import (clojure_general_ms.java.domains.exceptions BadRequestException)))
+  (:import (src.domains.exceptions BadRequestException)))
 
 (defn find-user-by-id-handler [id]
   (let [usecaseFindUserById (:usecaseFindUserById (usecase-beans/get-beans))

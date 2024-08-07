@@ -1,6 +1,7 @@
 (ns clojure-general-ms.gateways.ws.middlewares.custom-exception-handler
-  (:import [clojure_general_ms.java.domains.exceptions BadRequestException JsonUtilsException ResourceNotFoundException]
-           (org.eclipse.jetty.http HttpStatus)))
+  (:import
+    (src.domains.exceptions BadRequestException JsonUtilsException ResourceNotFoundException)
+    (org.eclipse.jetty.http HttpStatus)))
 
 (defn build-error-message-body [msg]
   {

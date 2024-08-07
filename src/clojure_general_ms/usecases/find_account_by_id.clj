@@ -1,6 +1,6 @@
 (ns clojure-general-ms.usecases.find-account-by-id
   (:import
-    (clojure_general_ms.java.domains.exceptions ResourceNotFoundException)))
+    (src.domains.exceptions ResourceNotFoundException)))
 
 (defn execute [accountDatabaseGateway]
   (fn [id]

@@ -19,12 +19,15 @@
                  [org.clojure/data.json "2.4.0"]
                  [org.mongodb/bson "4.9.1"]
                  [org.apache.kafka/kafka-clients "3.4.0"]
-                 [org.clojure/tools.logging "1.2.4"]]
+                 [org.clojure/tools.logging "1.2.4"]
+                 [ring-cors "0.1.13"]]
   :plugins [[lein-cloverage "1.2.4"]]
-  :java-source-paths ["src/clojure_general_ms/java/domains/exceptions"]
+  :java-source-paths ["src/clojure_general_ms/java"]
   :main ^:skip-aot clojure-general-ms.core
+  :resource-paths ["resources"]
   :target-path "target/%s"
   :profiles {:uberjar   {:aot      :all
                          :jvm-opts ["-Dclojure.compiler.direct-linking=true"]}
              :cloverage {
-                         :cloverage {:ns-exclude-regex "^clojure-general-ms\\.(gateways|configs)\\..*"}}})
+                         :cloverage {:ns-exclude-regex "^clojure-general-ms\\.(gateways|configs)\\..*"}}}
+  :prep-tasks ["javac" "compile"])

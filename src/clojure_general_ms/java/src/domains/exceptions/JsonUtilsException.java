@@ -1,4 +1,4 @@
-package clojure_general_ms.java.domains.exceptions;
+package src.domains.exceptions;
 
 public class JsonUtilsException extends RuntimeException {
 

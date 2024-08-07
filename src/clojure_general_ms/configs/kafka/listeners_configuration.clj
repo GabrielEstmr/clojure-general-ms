@@ -33,7 +33,7 @@
 
 (defn start-consumer []
   (let [consumer (create-consumer)]
-    (consume-messages consumer)))
+    (future (consume-messages consumer))))
 
 
 

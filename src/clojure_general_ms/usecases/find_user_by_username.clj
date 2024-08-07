@@ -1,5 +1,5 @@
 (ns clojure-general-ms.usecases.find-user-by-username
-  (:import (clojure_general_ms.java.domains.exceptions ResourceNotFoundException)))
+  (:import (src.domains.exceptions ResourceNotFoundException)))
 
 (defn execute [userDatabaseGateway]
   (fn [username]

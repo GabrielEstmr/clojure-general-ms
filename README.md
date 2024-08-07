@@ -3,7 +3,7 @@
 ## What's next
 
 - [x] Entity validations
-- [ ] Kafka
+- [x] Kafka
 - [ ] Postgres
 - [ ] Swagger
 - [ ] APM
