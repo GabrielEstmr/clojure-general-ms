@@ -11,5 +11,10 @@
 - [ ] tests mocking
 - [ ] tests intellij 
 - [x] tests coverages (need exclusion)
+- [ ] coverage exclusion
 - [ ] container tests
 - [ ] caching (redis)
+
+
+lein cloverage for covarege report
+

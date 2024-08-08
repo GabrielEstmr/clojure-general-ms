@@ -1,5 +1,6 @@
 (ns clojure-general-ms.configs.yml.yml-config
-  (:import [org.yaml.snakeyaml Yaml])
+  (:import (java.util LinkedHashMap List Map)
+           [org.yaml.snakeyaml Yaml])
   (:require [clojure.java.io :as io]))
 
 (defn read-config [file]
@@ -11,4 +12,23 @@
 ;(def config (read-config "./src/resources/config.yml"))
 (def config (read-config "./resources/config.yml"))
 
-(println config)
+(defn get-app-configs []
+  config)
+
+(defn get-by-path
+  [^LinkedHashMap path]
+  (let [keys (clojure.string/split path #"\.")]
+    (reduce
+      (fn [m k] (if (instance? LinkedHashMap m)
+                  (.get m k)
+                  nil))
+      config
+      keys)))
+
+
+(defn java-to-clj [data]
+  (cond
+    (instance? Map data) (into {} (for [[k v] data]
+                                    [(keyword k) (java-to-clj v)]))
+    (instance? List data) (vec (map java-to-clj data))
+    :else data))

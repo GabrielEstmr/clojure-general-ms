@@ -1,6 +1,29 @@
-app:
-  name: my-app
-  version: 1.0.0
-database:
-  host: localhost
-  port: 5432
+logging:
+  level:
+    root: 'INFO'
+    com.challenger: 'DEBUG'
+    org.springframework.data.mongodb.core.MongoTemplate: 'DEBUG'
+data:
+  mongodb:
+    uri: mongodb://localhost:27017/app-base-spring
+kafka:
+  topics:
+    transactions:
+      name: ms.clojure.transactions
+      concurrency: 2
+  default-config:
+    bootstrap-servers: localhost:9092
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: mp-base-spring
+      auto-offset-reset: earliest
+      max-poll-records: 5
+      session-timeout-ms: 60000
+      max-poll-interval-ms: 250000
+      max-retries: 1
+      concurrency: 1
+    producer:
+      bootstrap-servers: localhost:9092
+      retries: 1
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
