@@ -5,6 +5,7 @@
 - [x] Entity validations
 - [x] Kafka
 - [ ] Postgres
+- [ ] Http integration
 - [ ] Swagger
 - [ ] APM
 - [x] tests 
@@ -17,4 +18,3 @@
 
 
 lein cloverage for covarege report
-

@@ -1,9 +1,10 @@
 (ns clojure-general-ms.configs.mongo.mongo-config-doc
+  (:require [clojure-general-ms.configs.yml.yml-config :as yml-config])
   (:import (com.mongodb MongoClientSettings ServerApi ServerApiVersion ConnectionString)
            [com.mongodb.client MongoClients]
            (org.bson BsonDocument BsonInt64)))
 
-(defonce uri "mongodb://localhost:27017")
+(defonce uri (yml-config/get-by-path "data.mongodb.uri"))
 
 (defn get-server-api []
   (-> (ServerApi/builder)
@@ -24,5 +25,5 @@
     (println "Pinged your deployment. You successfully connected to MongoDB!")
     command-result))
 
-(defonce database (.getDatabase mongo-client "testDatabase"))
+(defonce database (.getDatabase mongo-client (yml-config/get-by-path "data.mongodb.database")))
 
