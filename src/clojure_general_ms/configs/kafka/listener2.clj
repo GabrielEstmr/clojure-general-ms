@@ -66,15 +66,22 @@
 
 (defn process-message [message ^KafkaConsumer consumer ^ConsumerRecord record]
   (try
-    (let [partition (TopicPartition. (.topic record) (.partition record))
-          offset (OffsetAndMetadata. (inc (.offset record)))]
-      (println "Processing message:" message "Offset:" (.offset record) "Partition:" partition)
-      (.commitSync consumer {partition offset})  ; Commit the offset
-      (println "Message committed successfully:" message "Offset:" (.offset record) "Partition:" partition))
 
-    ;(let [partition (TopicPartition. (.topic record) (.partition record))
-    ;      offset (OffsetAndMetadata. (inc (.offset record)))]  ; Offset should be committed as the next offset
-    ;  (.commitSync consumer {partition offset}))
+    (if (not= message "erro")
+
+      (let [partition (TopicPartition. (.topic record) (.partition record))
+            offset (OffsetAndMetadata. (inc (.offset record)))]
+        (println "Processing message:" message "Offset:" (.offset record) "Partition:" partition)
+        (.commitSync consumer {partition offset})  ; Commit the offset
+        (println "Message committed successfully:" message "Offset:" (.offset record) "Partition:" partition))
+
+      ;(let [partition (TopicPartition. (.topic record) (.partition record))
+      ;      offset (OffsetAndMetadata. (inc (.offset record)))]  ; Offset should be committed as the next offset
+      ;  (.commitSync consumer {partition offset}))
+      (throw (RuntimeException. "ERROR")))
+
+
+
 
     (catch Exception e
       (println "Error processing message:" (.getMessage e)))))
