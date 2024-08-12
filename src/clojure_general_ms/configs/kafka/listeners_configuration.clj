@@ -2,6 +2,7 @@
   (:require [clojure-general-ms.configs.yml.yml-config :as yml-config]
             [clojure-general-ms.gateways.kafka.listeners.transaction-listener :as transaction-listener])
   (:import (java.util Collections Properties)
+           (java.util.concurrent Executors)
            [org.apache.kafka.clients.consumer ConsumerConfig KafkaConsumer]
            (org.apache.kafka.common.serialization StringDeserializer)))
 
@@ -33,6 +34,17 @@
         (transaction-listener/update-transaction-listener consumer))
       (finally
         (.close consumer)))))
+
+
+
+;(defn start-listeners []
+;  (let [executor (Executors/newFixedThreadPool 2)]
+;    (dotimes [_ 2]
+;      (.submit executor (fn []
+;                          (let [consumer (create-consumer (yml-config/get-by-path "kafka.topics.transactions.name"))]
+;                            (transaction-listener/update-transaction-listener consumer)))))
+;    (.shutdown executor)))
+
 
 ;To set concurrency for your Kafka consumers in Clojure using the Confluent library, ]
 ; you can create multiple consumer instances, each running in its own thread.

@@ -5,6 +5,8 @@
             [clojure-general-ms.gateways.kafka.listeners.resources.transaction-resource :as transaction-resource])
   (:import (java.time Duration)
            (java.util Collections)
+           (org.apache.kafka.clients.consumer ConsumerRecord KafkaConsumer OffsetAndMetadata)
+           (org.apache.kafka.common TopicPartition)
            (src.domains.exceptions InternalServerErrorException)))
 
 (defn update-transaction-listener [consumer]
@@ -160,16 +162,93 @@
 
 
 
-(defn process-message [message]
+;(defn process-message [message consumer record]
+;  (try
+;    ;; Your message processing logic goes here
+;    (println "Processing message:" message)
+;    ;; Simulate success or error
+;    (if (= message "error")
+;      (throw (Exception. "Processing error"))
+;      (println "Message processed successfully"))
+;    ;; Return true if processed successfully
+;
+;    (.commitSync consumer (Collections/singletonMap (.topicPartition record) (.offsetAndMetadata record)))
+;    (println "=========================== OK")
+;    true
+;    (catch Exception e
+;      (println "Error processing message:" (.getMessage e))
+;      ;; Return false to indicate failure
+;      false)))
+
+;(defn process-message [message consumer record]
+;  (try
+;    ;; Your message processing logic goes here
+;    (println "Processing message:" message)
+;    ;; Simulate success or error
+;    (if (= message "error")
+;      (throw (Exception. "Processing error"))
+;      (println "Message processed successfully"))
+;    ;; Return true if processed successfully
+;    true
+;    (catch Exception e
+;      (println "Error processing message:" (.getMessage e))
+;      ;; Return false to indicate failure
+;      false)))
+
+(defn handler-error-personalized [consumer record]
+  (.commitSync consumer {(.topicPartition record) (.offsetAndMetadata record)})
+  (println "ERROR FUNCTION")
+  (throw (Exception. "Processing error")))
+
+
+;
+;
+; (defn process-message [message consumer record]
+;  (try
+;    ;; Process the message
+;    (println "Processing message:" message (.offset record))
+;
+;    ;; Simulate success or error
+;    (if (.equals (str message) "error")
+;      (handler-error-personalized consumer record))
+;
+;    (println "Message processed successfully")
+;    ;; Acknowledge the message by committing the offset
+;    (.commitSync consumer {(.topicPartition record) (.offsetAndMetadata record)})
+;
+;
+;    (println "Message processed successfully 2")
+;
+;    ;; Return true to indicate success
+;    true
+;
+;    (catch Exception e
+;      (println "Error processing message:" (.getMessage e))
+;      ;; Return false to indicate failure
+;      false)))
+
+
+(defn process-message [message ^KafkaConsumer consumer ^ConsumerRecord record]
   (try
-    ;; Your message processing logic goes here
-    (println "Processing message:" message)
+    ;; Process the message
+    (println "Processing message:" message "Offset:" (.offset record))
+
     ;; Simulate success or error
-    (if (= message "error")
-      (throw (Exception. "Processing error"))
-      (println "Message processed successfully"))
-    ;; Return true if processed successfully
+    (when (.equals (str message) "error")
+      (handler-error-personalized consumer record))
+
+    (println "Message processed successfully")
+
+    ;; Acknowledge the message by committing the offset
+    (let [partition (TopicPartition. (.topic record) (.partition record))
+          offset (OffsetAndMetadata. (.offset record))]
+      (.commitSync consumer {partition offset}))
+
+    (println "Message processed successfully 2")
+
+    ;; Return true to indicate success
     true
+
     (catch Exception e
       (println "Error processing message:" (.getMessage e))
       ;; Return false to indicate failure
@@ -182,10 +261,52 @@
       (let [records (.poll consumer 100)]
         (doseq [record records]
           (let [message (.value record)
-                processed? (process-message message)]
+                processed? (process-message message consumer record)]
             (when processed?
               ;; Commit the offset if the message was processed successfully
               (.commitSync consumer))))))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defn consume-messages [^KafkaConsumer consumer]
+  (loop []
+    (let [records (.poll consumer 1000)]
+      (doseq [record records]
+        (process-message (.value record) consumer record))
+      (recur))))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ;
 ;

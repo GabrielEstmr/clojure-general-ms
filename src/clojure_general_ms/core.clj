@@ -1,6 +1,7 @@
 (ns clojure-general-ms.core
   (:require [clojure-general-ms.gateways.ws.routes.app-routes :as app-routes]
             [clojure-general-ms.configs.kafka.listeners-configuration :as listeners-configuration]
+            [clojure-general-ms.configs.kafka.listener2 :as listener2]
             [clojure-general-ms.gateways.ws.middlewares.custom-exception-handler :as custom-exception-handler]
             [compojure.core :refer :all]
             [clojure-general-ms.configs.mongo.mongo-config-doc :as mongo-config]
@@ -25,7 +26,8 @@
 (defn -main [& args]
   (try
     (mongo-config/ping-database)
-    (listeners-configuration/start-listeners)
-    (run-jetty app {:port 8080 :join? false})
+    (listener2/start-consumer-thread)
+    ;(listeners-configuration/start-listeners)
+    (run-jetty app {:port 8081 :join? false})
     (catch Exception e
       (println (.getMessage e)))))
