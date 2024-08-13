@@ -18,9 +18,9 @@ kafka:
       bootstrap-servers: localhost:9092
       group-id: mp-base-spring
       auto-offset-reset: earliest
-      max-poll-records: 100
+      max-poll-records: 4
       session-timeout-ms: 60000
-      max-poll-interval-ms: 100
+      max-poll-interval-ms: 2000
       max-retries: 1
       concurrency: 1
     producer:

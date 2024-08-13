@@ -21,12 +21,23 @@
     (.subscribe consumer (Collections/singletonList topic))
     consumer))
 
+;(defn listener-starter [listener-handler ^KafkaConsumer consumer]
+;  (loop []
+;    (let [records (.poll consumer 1000)]
+;      (when (seq records)
+;        (doseq [record records]
+;          (listener-handler consumer record)))
+;      (recur))))
+
 (defn listener-starter [listener-handler ^KafkaConsumer consumer]
   (loop []
     (let [records (.poll consumer 1000)]
       (when (seq records)
         (doseq [record records]
-          (listener-handler consumer record)))
+          (try
+            (listener-handler consumer record)
+            (catch Exception e
+              (println "Error handling message. Will retry on next poll cycle. MESSAGE: " (.getMessage e))))))
       (recur))))
 
 (defn start-listeners []

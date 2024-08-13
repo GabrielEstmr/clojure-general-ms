@@ -23,15 +23,14 @@
 
 (defn listen [^KafkaConsumer consumer ^ConsumerRecord record]
   (try
-    (let [message (.value record)]
+    (let [message (.value record)
+          partition (TopicPartition. (.topic record) (.partition record))
+          offset (OffsetAndMetadata. (inc (.offset record)))]
+
       (if (not= message "error")
         (commit-msg message consumer record)
+        (process-and-log-error)))
 
-        ;(let [partition (TopicPartition. (.topic record) (.partition record))
-        ;      offset (OffsetAndMetadata. (inc (.offset record)))]  ; Offset should be committed as the next offset
-        ;  (.commitSync consumer {partition offset}))
-        (process-and-log-error)
-
-        ))
     (catch Exception e
-      (println "Error processing message:" (.getMessage e)))))
+      (println "Error processing message:" (.getMessage e))
+      (throw e))))  ; Rethrow the exception to handle the offset correctly

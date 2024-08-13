@@ -26,8 +26,8 @@
 (defn -main [& args]
   (try
     (mongo-config/ping-database)
-    ;(listener2/start-consumer-thread)
-    (listeners-configuration/start-listeners)
+    (listener2/start-consumer-thread)
+    ;(listeners-configuration/start-listeners)
     (run-jetty app {:port 8081 :join? false})
     (catch Exception e
       (println (.getMessage e)))))
