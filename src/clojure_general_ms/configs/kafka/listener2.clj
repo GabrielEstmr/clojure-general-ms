@@ -7,9 +7,9 @@
            [java.util.concurrent Executors]
            (org.apache.kafka.common.serialization StringDeserializer)))
 
+;; DO not Remove
 ;(defn create-consumer []
 ;  (let [props (doto (Properties.)
-;
 ;                (.put ConsumerConfig/BOOTSTRAP_SERVERS_CONFIG (yml-config/get-by-path "kafka.default-config.consumer.bootstrap-servers"))
 ;                (.put ConsumerConfig/GROUP_ID_CONFIG (yml-config/get-by-path "kafka.default-config.consumer.group-id"))
 ;                (.put ConsumerConfig/KEY_DESERIALIZER_CLASS_CONFIG StringDeserializer)
@@ -25,27 +25,38 @@
 ;
 ;(defn process-message [message ^KafkaConsumer consumer ^ConsumerRecord record]
 ;  (try
-;    ;; Same process-message function as before
-;    (println "MSG: " message "OFFSET: " (.offset record) "PARTITION: " (TopicPartition. (.topic record) (.partition record)))
-;    (let [partition (TopicPartition. (.topic record) (.partition record))
-;          offset (OffsetAndMetadata. (.offset record))]
-;      (.commitSync consumer {partition offset}))
-;    (println "MSG OK: " message "OFFSET: " (.offset record) "PARTITION: " (TopicPartition. (.topic record) (.partition record)))
+;
+;    (if (not= message "erro")
+;
+;      (let [partition (TopicPartition. (.topic record) (.partition record))
+;            offset (OffsetAndMetadata. (inc (.offset record)))]
+;        (println "Processing message:" message "Offset:" (.offset record) "Partition:" partition)
+;        (.commitSync consumer {partition offset})  ; Commit the offset
+;        (println "Message committed successfully:" message "Offset:" (.offset record) "Partition:" partition))
+;
+;      ;(let [partition (TopicPartition. (.topic record) (.partition record))
+;      ;      offset (OffsetAndMetadata. (inc (.offset record)))]  ; Offset should be committed as the next offset
+;      ;  (.commitSync consumer {partition offset}))
+;      (throw (RuntimeException. "ERROR")))
+;
+;
+;
+;
 ;    (catch Exception e
-;      (println "ERROR: " (.getMessage e)))))
+;      (println "Error processing message:" (.getMessage e)))))
 ;
 ;(defn consume-messages [^KafkaConsumer consumer]
 ;  (loop []
 ;    (let [records (.poll consumer 1000)]
-;      (doseq [record records]
-;        (process-message (.value record) consumer record))
+;      (when (seq records)
+;        (doseq [record records]
+;          (process-message (.value record) consumer record)))
 ;      (recur))))
 ;
 ;(defn start-consumer-thread []
 ;  (let [consumer (create-consumer)]
-;    (.start (Thread. (fn [] (consume-messages consumer))))))
-
-
+;    (Thread. (fn [] (consume-messages consumer)))  ; Start consumer in a new thread
+;    (.start (Thread. (fn [] (consume-messages consumer)))))) ; Ensure the thread starts
 
 
 
@@ -64,25 +75,21 @@
     (.subscribe consumer [(yml-config/get-by-path "kafka.topics.transactions.name")])
     consumer))
 
-(defn process-message [message ^KafkaConsumer consumer ^ConsumerRecord record]
+(defn process-message [^KafkaConsumer consumer ^ConsumerRecord record]
   (try
+    (let [message (.value record)]
+      (if (not= message "erro")
 
-    (if (not= message "erro")
+        (let [partition (TopicPartition. (.topic record) (.partition record))
+              offset (OffsetAndMetadata. (inc (.offset record)))]
+          (println "Processing message:" message "Offset:" (.offset record) "Partition:" partition)
+          (.commitSync consumer {partition offset})  ; Commit the offset
+          (println "Message committed successfully:" message "Offset:" (.offset record) "Partition:" partition))
 
-      (let [partition (TopicPartition. (.topic record) (.partition record))
-            offset (OffsetAndMetadata. (inc (.offset record)))]
-        (println "Processing message:" message "Offset:" (.offset record) "Partition:" partition)
-        (.commitSync consumer {partition offset})  ; Commit the offset
-        (println "Message committed successfully:" message "Offset:" (.offset record) "Partition:" partition))
-
-      ;(let [partition (TopicPartition. (.topic record) (.partition record))
-      ;      offset (OffsetAndMetadata. (inc (.offset record)))]  ; Offset should be committed as the next offset
-      ;  (.commitSync consumer {partition offset}))
-      (throw (RuntimeException. "ERROR")))
-
-
-
-
+        ;(let [partition (TopicPartition. (.topic record) (.partition record))
+        ;      offset (OffsetAndMetadata. (inc (.offset record)))]  ; Offset should be committed as the next offset
+        ;  (.commitSync consumer {partition offset}))
+        (throw (RuntimeException. "ERROR"))))
     (catch Exception e
       (println "Error processing message:" (.getMessage e)))))
 
@@ -91,10 +98,100 @@
     (let [records (.poll consumer 1000)]
       (when (seq records)
         (doseq [record records]
-          (process-message (.value record) consumer record)))
+          (process-message consumer record)))
       (recur))))
 
 (defn start-consumer-thread []
   (let [consumer (create-consumer)]
     (Thread. (fn [] (consume-messages consumer)))  ; Start consumer in a new thread
     (.start (Thread. (fn [] (consume-messages consumer)))))) ; Ensure the thread starts
+
+
+
+
+
+
+
+
+
+
+
+(defn case-ok []
+  (println "caseOk"))
+
+(defn case-not-ok []
+  (println "caseNotOk"))
+
+(defn execute [input]
+  (if (= input "OK")
+    (case-ok)
+    (case-not-ok)))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+(defn process-message [^KafkaConsumer consumer ^ConsumerRecord record]
+  (try
+    (let [message (.value record)
+          partition (TopicPartition. (.topic record) (.partition record))
+          offset (OffsetAndMetadata. (inc (.offset record)))]
+
+      (if (not= message "erro")
+        (do
+          (println "Processing message:" message "Offset:" (.offset record) "Partition:" partition)
+          (.commitSync consumer {partition offset})  ; Commit the offset
+          (println "Message committed successfully:" message "Offset:" (.offset record) "Partition:" partition))
+        (throw (RuntimeException. "ERROR"))))
+
+    (catch Exception e
+      (println "Error processing message:" (.getMessage e))
+      (throw e))))  ; Rethrow the exception to handle the offset correctly
+
+(defn consume-messages [^KafkaConsumer consumer]
+  (loop []
+    (let [records (.poll consumer 1000)]
+      (when (seq records)
+        (doseq [record records]
+          (try
+            (process-message consumer record)
+            (catch Exception e
+              (println "Error handling message. Will retry on next poll cycle.")))))
+      (recur))))
+
+(defn start-consumer-thread []
+  (let [consumer (create-consumer)]
+    (Thread. (fn [] (consume-messages consumer)))
+    (.start (Thread. (fn [] (consume-messages consumer))))))  ; Ensure the thread starts
+
+
+

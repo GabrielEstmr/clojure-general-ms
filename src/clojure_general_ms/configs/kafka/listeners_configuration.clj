@@ -21,36 +21,15 @@
     (.subscribe consumer (Collections/singletonList topic))
     consumer))
 
-(defn start-listener [listener-starter topic ^Integer concurrency]
-  (doseq [_ (range concurrency)]
-    (let [consumer (create-consumer topic)]
-      (listener-starter consumer))))
-
+(defn listener-starter [listener-handler ^KafkaConsumer consumer]
+  (loop []
+    (let [records (.poll consumer 1000)]
+      (when (seq records)
+        (doseq [record records]
+          (listener-handler consumer record)))
+      (recur))))
 
 (defn start-listeners []
   (let [consumer (create-consumer (yml-config/get-by-path "kafka.topics.transactions.name"))]
-    (try
-      (while true
-        (transaction-listener/update-transaction-listener consumer))
-      (finally
-        (.close consumer)))))
-
-
-
-;(defn start-listeners []
-;  (let [executor (Executors/newFixedThreadPool 2)]
-;    (dotimes [_ 2]
-;      (.submit executor (fn []
-;                          (let [consumer (create-consumer (yml-config/get-by-path "kafka.topics.transactions.name"))]
-;                            (transaction-listener/update-transaction-listener consumer)))))
-;    (.shutdown executor)))
-
-
-;To set concurrency for your Kafka consumers in Clojure using the Confluent library, ]
-; you can create multiple consumer instances, each running in its own thread.
-; You already have a function start-consumers, so you can modify it to start multiple consumers.
-;(defn start-listeners []
-;  (start-listener
-;    transaction-listener/update-transaction-listener
-;    (yml-config/get-by-path "kafka.topics.transactions.name")
-;    (int (yml-config/get-by-path "kafka.topics.transactions.concurrency"))))
+    (Thread. (fn [] (listener-starter transaction-listener/listen consumer)))  ; Start consumer in a new thread
+    (.start (Thread. (fn [] (listener-starter transaction-listener/listen consumer)))))) ; Ensure the thread starts
