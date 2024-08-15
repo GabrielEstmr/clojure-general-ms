@@ -283,8 +283,6 @@
             )))
       (recur))))
 
-
-
 (defn start-consumer-thread []
   (let [consumer (create-consumer)]
     (.start (Thread. (fn [] (consume-messages consumer))))))
