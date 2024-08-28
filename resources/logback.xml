@@ -1,0 +1,15 @@
+<configuration>
+    <!-- Suppress logging for clojure-general-ms.core namespace -->
+    <logger name="clojure-general-ms.core" level="INFO"/>
+
+    <!-- Suppress logging for any other specific namespaces -->
+    <logger name="clojure-general-ms.gateways.ws.routes.app-routes" level="INFO"/>
+    <logger name="clojure-general-ms.gateways.kafka.listeners.transaction-listener" level="INFO"/>
+    <logger name="clojure-general-ms.configs.kafka.listeners-configuration" level="INFO"/>
+    <logger name="clojure-general-ms.gateways.ws.middlewares.custom-exception-handler" level="INFO"/>
+
+<!--    &lt;!&ndash; Root logger configuration (default level for all logs) &ndash;&gt;-->
+<!--    <root level="INFO">-->
+<!--        <appender-ref ref="STDOUT"/>-->
+<!--    </root>-->
+</configuration>
